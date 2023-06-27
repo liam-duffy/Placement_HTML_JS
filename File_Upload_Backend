@@ -1,0 +1,21 @@
+<cfparam name="form.vFileUpload" default=""> 
+
+<cfset
+    uploadFolderPath="\??????\" />
+
+<cfif isDefined("form.vFileUpload") AND form.vFileUpload NEQ "">
+    <cftry>
+        <!--- Attempt File Upload --->
+        <cffile action="upload" fileField="vFileUpload" destination="#uploadFolderPath#"
+            nameConflict="MakeUnique" result="files">
+        </cffile>
+        <cfcatch>
+
+        <script>
+            alert('File Upload Failed!');
+            location.href = "index.cfm";
+        </script>
+
+        </cfcatch>
+    </cftry>
+</cfif>
