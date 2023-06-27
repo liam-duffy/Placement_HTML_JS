@@ -1,0 +1,50 @@
+$query = "INSERT INTO job_request (requestor, notify, pdm, request_type, job_id, is_attachment, request_date, user_comment, Checkbox1, Checkbox2, Checkbox3, Checkbox4) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+// Prepare the statement
+$stmt = mysqli_prepare($link, $query);
+if ($stmt) {
+    // Bind the variables to the prepared statement
+    mysqli_stmt_bind_param($stmt, "sssisissiiii", $username, $usern_details['username'], $pdm_details['username'], $request_type, $job_id, $is_attachment, $request_date, $user_comment, $Checkbox1, $Checkbox2, $Checkbox3, $Checkbox4);
+    // Determine job_id and is_attachment values
+    if ($attachment) {
+        $job_id = null;
+        $is_attachment = 1;
+    } else {
+        $job_id = $job_num;
+        $is_attachment = 0;
+    }
+    // Set request_date and user_comment values
+    $request_date = date("Y-m-d");
+    $user_comment = $action_reason != "" ? $action_reason : null;
+    // Execute the prepared statement
+    if (mysqli_stmt_execute($stmt)) {
+        // Check if there is an attachment
+        if ($attachment) {
+            $last_id = mysqli_insert_id($link);
+            $encoded = base64_encode($file_contents);
+            // Prepare the query for attachment insertion
+            $attachment_query = "INSERT INTO job_request_attachment (request_id, filename, filetype, data) VALUES (?, ?, ?, ?)";
+            $attachment_stmt = mysqli_prepare($link, $attachment_query);
+            if ($attachment_stmt) {
+                // Bind the variables to the attachment prepared statement
+                mysqli_stmt_bind_param($attachment_stmt, "isss", $last_id, $file['name'], $file['type'], $encoded);
+                // Execute the attachment prepared statement
+                if (!mysqli_stmt_execute($attachment_stmt)) {
+                    $errors[] = "There was a problem submitting your request. Please contact the helpdesk for assistance.";
+                    mysqli_stmt_close($attachment_stmt);
+                    // Rollback the transaction
+                    mysqli_query($link, "DELETE FROM job_request WHERE request_id = $last_id");
+                } else {
+                    mysqli_stmt_close($attachment_stmt);
+                }
+            } else {
+                $errors[] = "There was a problem preparing the attachment query. Please contact the helpdesk for assistance.";
+            }
+        }
+    } else {
+        $errors[] = "There was a problem submitting your request. Please contact the helpdesk for assistance.";
+    }
+        // Close the statement
+        mysqli_stmt_close($stmt);
+        } else {
+        $errors[] = "There was a problem preparing the query. Please contact the helpdesk for assistance.";
+    }
