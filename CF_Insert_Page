@@ -1,0 +1,25 @@
+<CFPARAM name="form.VAR1" default="">
+<CFPARAM name="form.VAR2" default="">
+<CFPARAM name="form.VAR3" default="">
+<CFPARAM name="form.VAR4" default="">
+
+
+                            <cfset tblname="???">
+
+                                <CFQUERY DATASOURCE="surveys" NAME="OYW" debug="yes" dbtype="ODBC">
+                                    INSERT INTO #tblname#
+                                    (
+                                        VAR1
+                                        VAR2
+                                        VAR3
+                                        VAR4
+                                    )
+                                    VALUES
+                                    (
+                                    <cfqueryparam value="#form.VAR1#" cfsqltype="CF_SQL_VARCHAR" maxlength="50" />,
+                                    <cfqueryparam value="#form.VAR2#" cfsqltype="CF_SQL_VARCHAR" maxlength="50" />,
+                                    <cfqueryparam value="#form.VAR3#" cfsqltype="CF_SQL_VARCHAR" maxlength="50" />,
+                                    <cfqueryparam value="#form.VAR4#" cfsqltype="CF_SQL_VARCHAR" maxlength="50" />,
+                                        )
+                                </CFQUERY>
+
