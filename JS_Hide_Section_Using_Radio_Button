@@ -1,0 +1,34 @@
+<!--- Initial radio button, when pressing a button, JS script should work --->
+<td>
+  <p>
+    <input type="radio" name="Dub_Night_Coach" id="Dub_Night_Coach" value="yes" onclick="hidedubreturn()" />
+      <font color="#000000;"><b>Yes</b></font>
+    <input type="radio" name="Dub_Night_Coach" id="Dub_Night_Coach" value="No" onclick="showdubreturn()"/>
+      <font color="#000000;"><b>No</b></font>
+  </p>
+</td>
+
+<!--- Section to be hidden/shown, pressing 'yes' on dub_night_coach will hide below td. Opposite for 'no' --->
+
+<td align="left" valign="top" id="Dub_return" >
+  <p>
+    <input type="radio" name="GW_Dublin" id="GW_Dublin" value="Yes" />
+    <font color="#000000;"><b>Yes</b></font>
+    <input type="radio" name="GW_Dublin" id="GW_Dublin" value="No" />
+    <font color="#000000;"><b>No</b></font>
+    </p>
+</td>
+
+<!--- JS Script --->
+
+<script>
+  function hidedubreturn() {
+    var Dub_return = document.getElementById("Dub_return");
+    Dub_return.style.display = "none";
+  }
+
+  function showdubreturn() {
+    var Dub_return = document.getElementById("Dub_return");
+    Dub_return.style.display = "table-cell";
+  }
+</script>
