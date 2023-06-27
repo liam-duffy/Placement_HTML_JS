@@ -1,0 +1,44 @@
+<div class="mb-3">
+    <label for="vFileUpload" class="form-label">Please
+        upload your video here <i>(Max size:
+            80MB)</i></label>
+    <p style="color:blue;"><i> This may take a few seconds
+            to upload</i></p>
+    <input class="form-control" type="file" id="vFileUpload"
+        name="vFileUpload"
+        onchange="validateVideoFile(this)" required>
+</div>
+<script>
+    function validateVideoFile(input) {
+        const maxSize = 80 * 1024 * 1024; // 80MB in bytes
+        const file = input.files[0];
+        if (file && file.size > maxSize) {
+            alert('File size exceeds the maximum limit of 80MB.');
+            input.value = ''; // Reset the file input field
+        }
+    }
+</script>
+<div id="progress"></div>
+<script>
+    var vFileUpload = document.getElementById('vFileUpload');
+    vFileUpload.addEventListener('change', function () {
+        uploadVideo();
+    });
+    function uploadVideo() {
+        var file = vFileUpload.files[0];
+        var xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener('progress', function (event) {
+            var progress = Math.round((event.loaded / event.total) * 100);
+            document.getElementById('progress').innerText = 'Upload progress: ' + progress + '%';
+            document.getElementById('progress').style.color = 'blue';
+        });
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById('progress').innerText = 'Upload completed!';
+                document.getElementById('progress').style.color = 'blue';
+            }
+        };
+        xhr.open('POST', '/upload', true);
+        xhr.send(file);
+    }
+</script>
