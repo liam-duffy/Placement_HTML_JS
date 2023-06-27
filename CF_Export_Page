@@ -1,0 +1,37 @@
+<cfinclude template="templates/header.html" />
+
+<CFQUERY DATASOURCE="??"  NAME="??" debug="yes" dbtype="ODBC">
+    SELECT * 
+    FROM Tablename
+    ORDER BY ID DESC
+</CFQUERY>
+
+<div class="container-fluid">
+
+    <h1 class="page-title" id="export_title">Page title</h1>
+    <hr />
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>VAR1</th>
+                <th>VAR2</th>
+                <th>VAR3</th>
+                <th>VAR4</th>
+            </tr>
+        </thead>
+        <tbody>
+            <cfoutput query="??"> 
+                <tr>
+
+                    <td>#EncodeForHTML(VAR1)#</td>
+                    <td>#EncodeForHTML(VAR2)#</td>
+                    <td>#EncodeForHTML(VAR3)#</td>
+                    <td>#EncodeForHTML(VAR4)#</td>
+                    
+                </tr>
+            </cfoutput>
+        </tbody>
+    </table>
+</div>
+
+<cfinclude template="templates/footer.html" />
